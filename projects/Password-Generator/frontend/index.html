@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔐 Secure Password Generator</h1>
+
+        <div class="password-display">
+            <input type="text" id="password" readonly placeholder="Click Generate Password">
+            <button id="copyBtn" title="Copy to clipboard">📋</button>
+        </div>
+
+        <form id="passwordForm">
+            <div class="form-group">
+                <label>Length: <span id="lengthValue">12</span></label>
+                <input type="range" id="length" min="4" max="128" value="12">
+            </div>
+
+            <div class="checkbox-group">
+                <label><input type="checkbox" id="includeUpper" checked> Uppercase (A-Z)</label>
+                <label><input type="checkbox" id="includeLower" checked> Lowercase (a-z)</label>
+                <label><input type="checkbox" id="includeDigits" checked> Numbers (0-9)</label>
+                <label><input type="checkbox" id="includeSpecial"> Special (!@#$%)</label>
+            </div>
+
+            <button type="submit" id="generateBtn">Generate Password</button>
+        </form>
+    </div>
+
+    <!-- Script LAST after DOM loads -->
+    <script src="script.js"></script>
+</body>
+
+</html>

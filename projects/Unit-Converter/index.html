@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multi Unit Converter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="converter">
+    <h2>Unit Converter</h2>
+
+    <select id="type">
+        <option value="length">Length</option>
+        <option value="weight">Weight</option>
+        <option value="temperature">Temperature</option>
+    </select>
+
+    <input type="number" id="inputValue" placeholder="Enter value">
+
+    <div class="row">
+    <div class="unit-box">
+        <label>Input-unit</label>
+        <select id="fromUnit"></select>
+    </div>
+
+    <div class="unit-box">
+        <label>Output-Unit</label>
+        <select id="toUnit"></select>
+    </div>
+    </div>
+
+
+    <div class="output" id="result">Result</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
