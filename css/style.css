@@ -247,6 +247,11 @@ ul {
     color: #dc2626;
 }
 
+.runner-cover {
+    background: linear-gradient(135deg, #ecfeff 0%, #f0fdf4 100%);
+    color: #0891b2;
+}
+
 .card-content {
     padding: 1.5rem;
 }
