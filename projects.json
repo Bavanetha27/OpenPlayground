@@ -768,6 +768,20 @@
     "icon": "ri-money-dollar-box-line",
     "coverStyle": "background: #16a34a; color: white;"
   },
+
+  {
+    "title": "Expense Splitter",
+    "category": "utility",
+    "description": "Designed to split a total expense evenly among a group of people. ",
+    "tech": [
+      "HTML",
+      "CSS",
+      "JS"
+    ],
+    "link": "./projects/expensesplitter/index.html",
+    "icon": "ri-money-dollar-box-line",
+    "coverStyle": "background: #16a34a; color: white;"
+  },
   {
     "title": "Snake and Ladder",
     "category": "game",
