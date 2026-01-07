@@ -1012,7 +1012,35 @@
   "link": "./projects/simple-drawing-canvas/index.html",
   "icon": "ri-brush-line",
   "coverClass": "drawing-canvas-cover"
+},
+{
+  "title": "Visual Rhythm Game",
+  "category": "game",
+  "description": "Tap in sync with animated visual beats in a silent, arcade-style rhythm game.",
+  "tech": ["HTML", "CSS", "JS"],
+  "link": "./projects/Visual_Rhythm_Game/index.html",
+  "icon": "ri-pulse-line",
+  "coverStyle": "background: linear-gradient(135deg, #020617 0%, #4f46e5 100%); color:#e0e7ff;"
+},
+{
+  "title": "Visual Rhythm Game",
+  "category": "game",
+  "description": "Tap in sync with animated visual beats in a silent, arcade-style rhythm game.",
+  "tech": ["HTML", "CSS", "JS"],
+  "link": "./projects/Visual_Rhythm_Game/index.html",
+  "icon": "ri-pulse-line",
+  "coverStyle": "background: linear-gradient(135deg, #020617 0%, #4f46e5 100%); color:#e0e7ff;"
+},
+{
+  "title": "One Button Boss Fight",
+  "category": "game",
+  "description": "Defeat a boss using a single button with timing-based attacks and dodges.",
+  "tech": ["HTML", "CSS", "JS"],
+  "link": "./projects/One_Button_Boss_Fight/index.html",
+  "icon": "ri-sword-line",
+  "coverStyle": "background: linear-gradient(135deg, #7f1d1d 0%, #1f2937 100%); color:#fef2f2;"
 }
+
 
 
 ]
