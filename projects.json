@@ -922,6 +922,16 @@
   "link": "./projects/Settings_Page_Simulator/index.html",
   "icon": "ri-settings-3-line",
   "coverStyle": "background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%); color:#0f172a;"
+},
+{
+  "title": "Virtual Control Panel",
+  "category": "utility",
+  "description": "Interactive control panel simulating system switches, indicators, and dependencies.",
+  "tech": ["HTML", "CSS", "JS"],
+  "link": "./projects/Virtual_Control_Panel/index.html",
+  "icon": "ri-dashboard-2-line",
+  "coverStyle": "background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color:#f8fafc;"
 }
+
 
 ]
