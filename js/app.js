@@ -13,7 +13,7 @@ class ProjectManager {
     constructor() {
         // Prevent multiple instances
         if (window.projectManagerInstance) {
-            console.log("♻️ ProjectManager: Instance already exists, skipping constructor.");
+            console.log("♻️ ProjectManager: Instance already exists.");
             return window.projectManagerInstance;
         }
 
@@ -31,7 +31,6 @@ class ProjectManager {
         };
 
         window.projectManagerInstance = this;
-        this.init();
     }
 
     async init() {
@@ -122,16 +121,12 @@ class ProjectManager {
             });
         }
 
-        // Sort alphabetically by title (case-insensitive)
-        state.allProjects.sort((a, b) => {
-            const titleA = (a.title || '').toLowerCase();
-            const titleB = (b.title || '').toLowerCase();
-            return titleA.localeCompare(titleB);
-        });
-
-        // Update project count in hero
-        if (elements.projectCount) {
-            elements.projectCount.textContent = `${state.allProjects.length}+`;
+        // Sort
+        if (elements.sortSelect) {
+            elements.sortSelect.addEventListener('change', (e) => {
+                this.state.currentPage = 1;
+                this.render();
+            });
         }
 
         // Category Filters
@@ -179,18 +174,18 @@ class ProjectManager {
 
         let filtered = this.state.visibilityEngine.getVisibleProjects();
 
-        // Sorting (Custom Switch)
+        // Sorting
         const sortMode = elements.sortSelect?.value || 'default';
         if (sortMode === 'az') filtered.sort((a, b) => a.title.localeCompare(b.title));
         else if (sortMode === 'za') filtered.sort((a, b) => b.title.localeCompare(a.title));
         else if (sortMode === 'newest') filtered.reverse();
 
-        // Pagination
+        // Pagination Calculations
         const totalPages = Math.ceil(filtered.length / this.config.ITEMS_PER_PAGE);
         const start = (this.state.currentPage - 1) * this.config.ITEMS_PER_PAGE;
         const pageItems = filtered.slice(start, start + this.config.ITEMS_PER_PAGE);
 
-        // Visibility
+        // Grid/List visibility management
         if (elements.projectsGrid) {
             elements.projectsGrid.style.display = this.state.viewMode === 'card' ? 'grid' : 'none';
             if (this.state.viewMode !== 'card') elements.projectsGrid.innerHTML = '';
@@ -200,6 +195,7 @@ class ProjectManager {
             if (this.state.viewMode !== 'list') elements.projectsList.innerHTML = '';
         }
 
+        // Handle empty state
         if (pageItems.length === 0) {
             if (elements.emptyState) elements.emptyState.style.display = 'block';
             if (elements.projectsGrid) elements.projectsGrid.innerHTML = '';
@@ -221,7 +217,7 @@ class ProjectManager {
     }
 
     renderCardView(container, projects) {
-        container.innerHTML = projects.map((project, index) => {
+        container.innerHTML = projects.map((project) => {
             const isBookmarked = window.bookmarksManager?.isBookmarked(project.title);
             const techHtml = project.tech?.map(t => `<span>${this.escapeHtml(t)}</span>`).join('') || '';
             const coverStyle = project.coverStyle || '';
@@ -296,7 +292,7 @@ class ProjectManager {
                     <i class="ri-arrow-left-s-line"></i>
                  </button>`;
 
-        // Page numbers (简化的)
+        // Page numbers
         for (let i = 1; i <= totalPages; i++) {
             if (i === 1 || i === totalPages || (i >= this.state.currentPage - 1 && i <= this.state.currentPage + 1)) {
                 html += `<button class="pagination-btn ${i === this.state.currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
@@ -342,7 +338,13 @@ class ProjectManager {
 
     scrollToTop() {
         const section = document.getElementById('projects');
-        if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (section) {
+            const navbarHeight = 75;
+            window.scrollTo({
+                top: section.offsetTop - navbarHeight,
+                behavior: 'smooth'
+            });
+        }
     }
 
     /* -----------------------------------------------------------
@@ -374,7 +376,7 @@ async function fetchContributors() {
 
         const contributors = await response.json();
 
-        // Update count
+        // Update count if exists
         const count = document.getElementById('contributor-count');
         if (count) count.textContent = `${contributors.length}+`;
 
@@ -416,9 +418,7 @@ window.toggleProjectBookmark = function (btn, title, link, category, description
     if (icon) icon.className = isNowBookmarked ? 'ri-bookmark-fill' : 'ri-bookmark-line';
 
     // Show toast
-    if (typeof showToast === 'function') {
-        showToast(isNowBookmarked ? 'Added to bookmarks' : 'Removed from bookmarks');
-    }
+    showToast(isNowBookmarked ? 'Added to bookmarks' : 'Removed from bookmarks');
 };
 
 function showToast(message) {
@@ -438,152 +438,25 @@ function showToast(message) {
 }
 
 // ===============================
-// Initialization
+// Global Initialization
 // ===============================
-function initCustomDropdown() {
-    const wrapper = document.querySelector('.custom-select-wrapper');
-    const customSelect = document.querySelector('.custom-select');
-    const trigger = document.querySelector('.custom-select-trigger');
-    const options = document.querySelectorAll('.custom-option');
-    const hiddenSelect = document.getElementById('project-sort');
 
-    if (!wrapper || !trigger || !options.length || !hiddenSelect) return;
-
-    // Toggle dropdown
-    trigger.addEventListener('click', () => {
-        customSelect.classList.toggle('open');
-    });
-
-    // Handle option click
-    options.forEach(option => {
-        option.addEventListener('click', () => {
-            const value = option.getAttribute('data-value');
-            const text = option.textContent;
-
-            // Update selected class
-            options.forEach(opt => opt.classList.remove('selected'));
-            option.classList.add('selected');
-
-            // Update trigger text
-            trigger.querySelector('.selected-text').textContent = text;
-
-            // Update hidden select used by app logic
-            hiddenSelect.value = value;
-            // Trigger change event for app logic
-            hiddenSelect.dispatchEvent(new Event('change'));
-
-            // Close dropdown
-            customSelect.classList.remove('open');
-        });
-    });
-
-    // Close on click outside
-    document.addEventListener('click', (e) => {
-        if (!wrapper.contains(e.target)) {
-            customSelect.classList.remove('open');
-        }
-    });
-
-    // Keyboard support
-    trigger.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            customSelect.classList.toggle('open');
-        }
-    });
-}
-
-function initEventListeners() {
-    // Initialize custom dropdown
-    initCustomDropdown();
-
-    const elements = getElements();
-
-    // Search
-    if (elements.searchInput) {
-        elements.searchInput.addEventListener('input', debounce(handleSearch, 200));
-        console.log('✅ Search listener attached');
-    }
-
-    // Clear search
-    if (elements.searchClear) {
-        elements.searchClear.addEventListener('click', handleClearSearch);
-    }
-
-    // Sort
-    if (elements.sortSelect) {
-        elements.sortSelect.addEventListener('change', handleSort);
-        console.log('✅ Sort listener attached');
-    }
-
-    // Filter buttons
-    if (elements.filterBtns.length > 0) {
-        elements.filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => handleFilter(btn.dataset.filter));
-        });
-        console.log(`✅ ${elements.filterBtns.length} filter buttons attached`);
-    }
-
-    // View more
-    if (elements.viewMoreBtn) {
-        elements.viewMoreBtn.addEventListener('click', handleViewMore);
-        console.log('✅ View more button attached');
-    }
-
-    // View toggle
-    if (elements.cardViewBtn) {
-        elements.cardViewBtn.addEventListener('click', () => handleViewToggle('card'));
-        console.log('✅ Card view button attached');
-    }
-    if (elements.listViewBtn) {
-        elements.listViewBtn.addEventListener('click', () => handleViewToggle('list'));
-        console.log('✅ List view button attached');
-    }
-
-    // Random project
-    if (elements.randomBtn) {
-        elements.randomBtn.addEventListener('click', handleRandomProject);
-    }
-}
-
-function initApp() {
-    if (state.initialized) {
-        console.log('App already initialized');
-        return;
-    }
-
-    console.log('🚀 Initializing OpenPlayground Projects...');
-    initEventListeners();
-    fetchProjects();
-    state.initialized = true;
-}
-
-// ===============================
-// ProjectManager Class (for components.js compatibility)
-// ===============================
-class ProjectManager {
-    constructor() {
-        console.log('ProjectManager initialized');
-        initApp();
-    }
-}
-
-// Expose to global scope
+// Expose to global scope for components.js compatibility
 window.ProjectManager = ProjectManager;
 window.fetchContributors = fetchContributors;
 
-// Listen for component load events
+// Listen for component load events from components.js
 document.addEventListener('componentLoaded', (e) => {
     if (e.detail && e.detail.component === 'projects') {
-        console.log("📍 Projects component loaded, initializing ProjectManager...");
-        new ProjectManager();
+        const manager = new ProjectManager();
+        manager.init();
     }
     if (e.detail && e.detail.component === 'contributors') {
         fetchContributors();
     }
 });
 
-// Animation triggers (from user version)
+// Fade-in animation observer
 document.addEventListener('DOMContentLoaded', () => {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
