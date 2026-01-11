@@ -1136,6 +1136,19 @@
     "icon": "ri-user-smile-line",
     "coverStyle": "background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); color: #7c2d12;"
   },
+   {
+    "title": "Email Validation",
+    "category": "utility",
+    "description": "Validate email addresses",
+    "tech": [
+      "HTML",
+      "CSS",
+      "JS"
+    ],
+    "link": "./projects/email-validation/index.html",
+    "icon": "ri-mail-check-line",
+    "coverStyle": "background: #1e293b; color: #22d3ee;"
+  },
   {
     "title": "Profile Editor Simulator",
     "category": "utility",
