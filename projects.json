@@ -2391,5 +2391,18 @@
     "link": "./projects/QuantumDiceRoller/index.html",
     "icon": "ri-dice-line",
     "coverStyle": "background: #1e40af; color: white;"
+  },
+  {
+    "title": "Sorting Algorithm",
+    "category":"utility",
+    "description": "Build to make your Bubble, Insertion and Selection Sort concepts crystal clear through animation",
+    "tech":[
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "link": "./projects/Sorting-Visualizer",
+    "icon": "ri-bubble-chart-line",
+    "coverStyle": "background: #475569; color: #f8fafc;"
   }
 ]
