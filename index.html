@@ -52,7 +52,54 @@
 
     <script src="./js/components.js"></script>
 
+    <script>
+        // Add this to your main.js or script file
+
+// Function to set active nav link
+function setActiveNavLink() {
+    // Get current URL or hash
+    const currentPath = window.location.pathname;
+    const currentHash = window.location.hash;
     
+    // Get all nav links
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    // Remove active class from all links
+    navLinks.forEach(link => link.classList.remove('active'));
+    
+    // Check for hash links (Projects, Contribute)
+    if (currentHash) {
+        const hashLink = document.querySelector(`.nav-link[href="${currentHash}"]`);
+        if (hashLink) {
+            hashLink.classList.add('active');
+            return;
+        }
+    }
+    
+    // Check for page links
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath || 
+            (currentPath.includes('about') && link.getAttribute('href') === 'about.html') ||
+            (currentPath.includes('bookmarks') && link.getAttribute('href') === 'bookmarks.html')) {
+            link.classList.add('active');
+        }
+    });
+}
+
+// Run on page load
+document.addEventListener('DOMContentLoaded', setActiveNavLink);
+
+// Run on hash change (for Projects/Contribute sections)
+window.addEventListener('hashchange', setActiveNavLink);
+
+// Run on page load for sections
+window.addEventListener('load', () => {
+    // If there's a hash on initial load
+    if (window.location.hash) {
+        setActiveNavLink();
+    }
+});
+    </script>
 
     <script type="module" src="./js/app.js"></script>
 </body>
