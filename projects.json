@@ -2748,6 +2748,15 @@
     "link": "./projects/Particle_Life_Simulation/index.html",
     "icon": "ri-bubble-chart-line",
     "coverStyle": "background: linear-gradient(135deg, #0f172a 0%, #020617 100%); color:#e5e7eb;"
+  },
+  {
+    "title": "Recipe Finder",
+    "category": "utility",
+    "description": "Find recipes by ingredients with real-time search and filtering using a public recipe API.",
+    "tech": ["HTML", "CSS", "JS", "API"],
+    "link": "./projects/Recipe Finder/index.html",
+    "icon": "ri-restaurant-2-line",
+    "coverStyle": "background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: #212121;"
   }
 
 ]
