@@ -3149,6 +3149,21 @@
   "link": "https://yugenjr.github.io/ColorMoodBoard/",
   "icon": "ri-palette-line",
   "coverStyle": "background: linear-gradient(135deg, #fef3c7 0%, #fde68a 40%, #f59e0b 100%); color: #1f2937;"
+},
+  {
+  "title": "One-Click Relax Button",
+  "category": "utility",
+  "difficulty": "Intermediate",
+  "description": "A calming, interactive relaxation experience with guided breathing cues, smooth animations, subtle motion, and mindful visual feedback. Designed to help users pause, breathe, and reset with a single click.",
+  "tech": [
+    "HTML",
+    "CSS",
+    "JavaScript"
+  ],
+  "link": "./projects/one-click-relax-button/index.html",
+  "icon": "ri-heart-pulse-line",
+  "coverStyle": "background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #d1fae5 100%); color: #064e3b;"
 }
+
 
 ]
