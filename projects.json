@@ -1,5 +1,24 @@
 [
   {
+    "title": "World Meeting Planner",
+    "category": "utility",
+    "difficulty": "Intermediate",
+    "description": "A timezone coordination tool that helps remote teams find overlapping meeting times with visual timeline visualization, golden hour detection, and automated invite generation for global teams.",
+    "tech": [
+      "HTML5",
+      "CSS3",
+      "JavaScript",
+      "ES6 Classes",
+      "LocalStorage API",
+      "Canvas API",
+      "CSS Grid & Flexbox",
+      "Responsive Design"
+    ],
+    "link": "./projects/WorldMeetingPlanner/index.html",
+    "icon": "ri-globe-line",
+    "coverStyle": "background: linear-gradient(135deg, #3a86ff 0%, #8338ec 50%, #ffbe0b 100%); color: white;",
+  },
+  {
     "title": "StegoSafe Pro",
     "category": "productivity",
     "difficulty": "Intermediate",
