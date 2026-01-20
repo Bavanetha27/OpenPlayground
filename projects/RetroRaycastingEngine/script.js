@@ -255,9 +255,6 @@ class Engine {
 
     /* --- RENDERER (DDA Raycasting) --- */
     render() {
-        // Clear buffer manually (faster than clearRect for pixel manip)
-        this.screenBuffer.data.fill(0); // Optional: Optimization
-
         // We manipulate the Uint32Array view of the buffer for speed
         // Format: AABBGGRR (Little Endian)
         const buf32 = new Uint32Array(this.screenBuffer.data.buffer);
