@@ -5770,6 +5770,22 @@
     "link": "./projects/drunken-walk-simulation/index.html",
     "icon": "ri-shuffle-line",
     "coverStyle": "background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%); color: white;"
+  },
+
+  {
+    "title": "Kinetic Typography",
+    "category": "experimental",
+    "difficulty": "Beginner",
+    "description": "A kinetic typography sketch that animates individual characters using sine-wave motion, creating smooth, wave-like text animation while preserving readability.",
+    "tech": [
+      "HTML",
+      "CSS",
+      "JavaScript"
+    ],
+    "link": "./projects/kinetic-typography/index.html",
+    "icon": "ri-text-spacing",
+    "coverStyle": "background: linear-gradient(135deg, #1f4037 0%, #99f2c8 100%); color: #0f172a;"
   }
+  
   
 ]
