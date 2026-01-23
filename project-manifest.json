@@ -207,6 +207,11 @@
       "link": "./projects/ChallengeGenerator/index.html"
     },
     {
+      "folder": "AmbientFocusRoom",
+      "path": "./projects/AmbientFocusRoom/project.json",
+      "link": "./projects/AmbientFocusRoom/index.html"
+    },
+    {
       "folder": "ChaloCanteen",
       "path": "./projects/ChaloCanteen/project.json",
       "link": "./projects/ChaloCanteen/index.html"
