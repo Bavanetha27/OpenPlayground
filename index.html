@@ -54,6 +54,18 @@
 
     <script src="./js/bookmarks.js"></script>
 
+    <!-- Analytics Engine - Feature #1291 -->
+    <script src="./js/core/analyticsEngine.js" type="module"></script>
+    <script>
+        // Load analytics engine for non-module scripts
+        import('./js/core/analyticsEngine.js').then(module => {
+            window.analyticsEngine = module.analyticsEngine;
+            console.log('📊 Analytics Engine loaded');
+        }).catch(err => {
+            console.warn('Analytics engine not available:', err.message);
+        });
+    </script>
+
     <script src="./js/chatbot.js"></script>
 
     <script src="./js/components.js"></script>

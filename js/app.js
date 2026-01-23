@@ -1,5 +1,6 @@
 // ===============================
 // OpenPlayground - Unified App Logic
+// Feature #1291: Added Analytics Engine Integration
 // ===============================
 
 import { ProjectVisibilityEngine } from "./core/projectVisibilityEngine.js";
@@ -27,6 +28,8 @@ class ProjectManager {
         };
 
         this.elements = null;
+        this.analyticsEngine = window.analyticsEngine || null;
+        this.viewportObserver = null; // For tracking card views
         window.projectManagerInstance = this;
     }
 
@@ -39,9 +42,60 @@ class ProjectManager {
         this.elements = this.getElements();
         this.setupEventListeners();
         await this.fetchProjects();
+        
+        // Initialize analytics integration
+        this.initializeAnalytics();
+        
+        // Setup viewport observer for tracking card views
+        this.setupViewportObserver();
 
         this.state.initialized = true;
         console.log("✅ ProjectManager: Ready.");
+    }
+    
+    /**
+     * Initialize analytics engine integration
+     */
+    initializeAnalytics() {
+        // Get analytics engine from global scope
+        this.analyticsEngine = window.analyticsEngine || null;
+        
+        if (this.analyticsEngine && this.state.visibilityEngine) {
+            // Connect analytics to visibility engine
+            this.state.visibilityEngine.setAnalyticsEngine(this.analyticsEngine);
+            console.log("📊 Analytics Engine connected to ProjectManager");
+        }
+    }
+    
+    /**
+     * Setup IntersectionObserver for tracking card views
+     */
+    setupViewportObserver() {
+        if (!this.analyticsEngine) return;
+        
+        this.viewportObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const projectId = entry.target.dataset.projectId;
+                    if (projectId) {
+                        this.analyticsEngine.trackView(projectId);
+                    }
+                }
+            });
+        }, { threshold: 0.5 }); // 50% visible
+    }
+    
+    /**
+     * Track project click for analytics
+     */
+    trackProjectClick(project) {
+        if (!this.analyticsEngine) return;
+        
+        const projectId = project.folder || project.name || project.title;
+        this.analyticsEngine.trackClick(projectId, {
+            category: project.category,
+            title: project.title
+        });
     }
 
     /* -----------------------------------------------------------
@@ -232,13 +286,13 @@ class ProjectManager {
         const el = this.elements;
 
         this.state.visibilityEngine.setPage(this.state.currentPage);
-        let filtered = this.state.visibilityEngine.getVisibleProjects();
-
-        // Sorting
+        
+        // Get sort mode and set in visibility engine
         const sortMode = el.sortSelect?.value || 'default';
-        if (sortMode === 'az') filtered.sort((a, b) => a.title.localeCompare(b.title));
-        else if (sortMode === 'za') filtered.sort((a, b) => b.title.localeCompare(a.title));
-        else if (sortMode === 'newest') filtered.reverse();
+        this.state.visibilityEngine.setSortMode(sortMode);
+        
+        // Get filtered and sorted projects from visibility engine
+        let filtered = this.state.visibilityEngine.getVisibleProjects();
 
         // Pagination
         const totalPages = Math.ceil(filtered.length / this.config.ITEMS_PER_PAGE);
@@ -270,6 +324,39 @@ class ProjectManager {
         }
 
         this.renderPagination(totalPages);
+        
+        // Setup viewport tracking for newly rendered cards
+        this.observeProjectCards();
+    }
+    
+    /**
+     * Observe project cards for viewport tracking
+     */
+    observeProjectCards() {
+        if (!this.viewportObserver) return;
+        
+        // Disconnect previous observations
+        this.viewportObserver.disconnect();
+        
+        // Observe all project cards
+        const cards = document.querySelectorAll('.card[data-project-id], .list-card[data-project-id]');
+        cards.forEach(card => {
+            this.viewportObserver.observe(card);
+        });
+    }
+    
+    /**
+     * Get badge HTML for a project
+     */
+    getProjectBadgeHtml(project) {
+        if (!this.analyticsEngine) return '';
+        
+        const projectId = project.folder || project.name || project.title;
+        const badge = this.analyticsEngine.getProjectBadge(projectId);
+        
+        if (!badge) return '';
+        
+        return `<span class="project-badge ${badge.class}">${badge.label}</span>`;
     }
 
     renderCardView(container, projects) {
@@ -279,9 +366,15 @@ class ProjectManager {
             const coverStyle = project.coverStyle || '';
             const coverClass = project.coverClass || '';
             const sourceUrl = this.getSourceCodeUrl(project.link);
+            const projectId = project.folder || project.name || project.title;
+            const badgeHtml = this.getProjectBadgeHtml(project);
 
             return `
-                <div class="card" data-category="${this.escapeHtml(project.category)}" onclick="window.location.href='${this.escapeHtml(project.link)}'; event.stopPropagation();">
+                <div class="card" 
+                     data-category="${this.escapeHtml(project.category)}" 
+                     data-project-id="${this.escapeHtml(projectId)}"
+                     onclick="window.projectManagerInstance.handleProjectClick(event, ${JSON.stringify(project).replace(/"/g, '&quot;')})">
+                    ${badgeHtml}
                     <div class="card-actions">
                         <button class="bookmark-btn ${isBookmarked ? 'bookmarked' : ''}" 
                                 data-project-title="${this.escapeHtml(project.title)}" 
@@ -312,21 +405,37 @@ class ProjectManager {
             `;
         }).join('');
     }
+    
+    /**
+     * Handle project card click with analytics tracking
+     */
+    handleProjectClick(event, project) {
+        event.stopPropagation();
+        
+        // Track the click
+        this.trackProjectClick(project);
+        
+        // Navigate to project
+        window.location.href = project.link;
+    }
 
     renderListView(container, projects) {
         container.innerHTML = projects.map(project => {
             const isBookmarked = window.bookmarksManager?.isBookmarked(project.title);
             const coverStyle = project.coverStyle || '';
             const coverClass = project.coverClass || '';
+            const projectId = project.folder || project.name || project.title;
+            const badgeHtml = this.getProjectBadgeHtml(project);
 
             return `
-                <div class="list-card">
+                <div class="list-card" data-project-id="${this.escapeHtml(projectId)}">
                     <div class="list-card-icon ${coverClass}" style="${coverStyle}">
                         <i class="${this.escapeHtml(project.icon || 'ri-code-s-slash-line')}"></i>
                     </div>
                     <div class="list-card-content">
                         <div class="list-card-header">
                             <h3 class="list-card-title">${this.escapeHtml(project.title)}</h3>
+                            ${badgeHtml}
                             <span class="category-tag">${this.capitalize(project.category)}</span>
                         </div>
                         <p class="list-card-description">${this.escapeHtml(project.description || '')}</p>
@@ -337,7 +446,8 @@ class ProjectManager {
                                 title="${isBookmarked ? 'Remove from bookmarks' : 'Add to bookmarks'}">
                             <i class="${isBookmarked ? 'ri-bookmark-fill' : 'ri-bookmark-line'}"></i>
                         </button>
-                        <a href="${project.link}" class="view-btn" title="View Project">
+                        <a href="${project.link}" class="view-btn" title="View Project"
+                           onclick="window.projectManagerInstance.trackProjectClick(${JSON.stringify(project).replace(/"/g, '&quot;')})">
                             <i class="ri-arrow-right-line"></i>
                         </a>
                     </div>
@@ -452,6 +562,11 @@ window.toggleProjectBookmark = function (btn, title, link, category, description
     const icon = btn.querySelector('i');
     btn.classList.toggle('bookmarked', isNowBookmarked);
     if (icon) icon.className = isNowBookmarked ? 'ri-bookmark-fill' : 'ri-bookmark-line';
+
+    // Track bookmark in analytics
+    if (window.analyticsEngine) {
+        window.analyticsEngine.trackBookmark(title, isNowBookmarked);
+    }
 
     showToast(isNowBookmarked ? 'Added to bookmarks' : 'Removed from bookmarks');
 };

@@ -1334,6 +1334,72 @@ html[data-theme="dark"] .difficulty-badge {
   filter: brightness(1.05);
 }
 
+/* ===============================
+   Project Analytics Badges
+   Feature #1291: Trending & Hidden Gem
+   =============================== */
+
+.project-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  z-index: 10;
+  box-shadow: var(--shadow-md);
+  animation: badge-pulse 2s ease-in-out infinite;
+}
+
+.badge-trending {
+  background: linear-gradient(135deg, #ff6b35, #ff8a50);
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+}
+
+.badge-hidden-gem {
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: white;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+@keyframes badge-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Adjust badge position for list view */
+.list-card .project-badge {
+  position: static;
+  margin-left: 0.5rem;
+  animation: none;
+  font-size: 0.65rem;
+  padding: 3px 8px;
+}
+
+/* Dark mode adjustments */
+html[data-theme="dark"] .badge-trending {
+  background: linear-gradient(135deg, #ff8a50, #ffab76);
+  box-shadow: 0 4px 12px rgba(255, 138, 80, 0.3);
+}
+
+html[data-theme="dark"] .badge-hidden-gem {
+  background: linear-gradient(135deg, #818cf8, #a5b4fc);
+  box-shadow: 0 4px 12px rgba(129, 140, 248, 0.3);
+}
+
+/* Ensure badge doesn't conflict with card-actions */
+.card .project-badge {
+  right: 80px; /* Space for action buttons */
+}
+
 
 .card:hover .card-cover {
   background: var(--primary-500);
