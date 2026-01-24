@@ -1,7 +1,7 @@
 {
-  "version": "2.0",
-  "generated": "2026-01-24T15:40:51.298Z",
-  "count": 342,
+  "version": "2.1",
+  "generated": "2026-01-24T16:38:07.796Z",
+  "count": 359,
   "projects": [
     {
       "folder": "15 Sliding Puzzle",
@@ -14,14 +14,9 @@
       "link": "./projects/2048-puzzle/index.html"
     },
     {
-      "folder": "Attention Garden",
-      "path": "./projects/AttentionGarden/project.json",
-      "link": "./projects/AttentionGarden/index.html"
-    },
-    {
-      "folder": "MinimalSurvival",
-      "path": "./projects/MinimalSurvival/project.json",
-      "link": "./projects/MinimalSurvival/index.html"
+      "folder": "2dshooter",
+      "path": "./projects/2dshooter/project.json",
+      "link": "./projects/2dshooter/index.html"
     },
     {
       "folder": "365Days",
@@ -89,6 +84,11 @@
       "link": "./projects/AmbientFocusRoom/index.html"
     },
     {
+      "folder": "asciiforge",
+      "path": "./projects/asciiforge/project.json",
+      "link": "./projects/asciiforge/index.html"
+    },
+    {
       "folder": "astroid-game",
       "path": "./projects/astroid-game/project.json",
       "link": "./projects/astroid-game/index.html"
@@ -112,6 +112,11 @@
       "folder": "background-video",
       "path": "./projects/background-video/project.json",
       "link": "./projects/background-video/index.html"
+    },
+    {
+      "folder": "balloon-rise",
+      "path": "./projects/balloon-rise/project.json",
+      "link": "./projects/balloon-rise/index.html"
     },
     {
       "folder": "barcode-reader",
@@ -219,6 +224,11 @@
       "link": "./projects/chat-app/index.html"
     },
     {
+      "folder": "chat-app-main",
+      "path": "./projects/chat-app-main/project.json",
+      "link": "./projects/chat-app-main/public/index.html"
+    },
+    {
       "folder": "checkers",
       "path": "./projects/checkers/project.json",
       "link": "./projects/checkers/index.html"
@@ -319,6 +329,11 @@
       "link": "./projects/Cryptographic-Protocol-Simulator/index.html"
     },
     {
+      "folder": "css-shapes-and-corners",
+      "path": "./projects/css-shapes-and-corners/project.json",
+      "link": "./projects/css-shapes-and-corners/index.html"
+    },
+    {
       "folder": "CSSBoxShadow",
       "path": "./projects/CSSBoxShadow/project.json",
       "link": "./projects/CSSBoxShadow/index.html"
@@ -337,11 +352,6 @@
       "folder": "Daily-Randomizer",
       "path": "./projects/Daily-Randomizer/project.json",
       "link": "./projects/Daily-Randomizer/index.html"
-    },
-        {
-      "folder": "living-typrography",
-      "path": "./projects/living-typrography/project.json",
-      "link": "./projects/living-typrography/index.html"
     },
     {
       "folder": "DailyAffirmationCard",
@@ -529,6 +539,11 @@
       "link": "./projects/expensesplitter/index.html"
     },
     {
+      "folder": "fading-snake",
+      "path": "./projects/fading-snake/project.json",
+      "link": "./projects/fading-snake/index.html"
+    },
+    {
       "folder": "FalseChoiceSimulator",
       "path": "./projects/FalseChoiceSimulator/project.json",
       "link": "./projects/FalseChoiceSimulator/index.html"
@@ -649,6 +664,11 @@
       "link": "./projects/habit-tracker/index.html"
     },
     {
+      "folder": "HabitGravityVisualizer",
+      "path": "./projects/HabitGravityVisualizer/project.json",
+      "link": "./projects/HabitGravityVisualizer/index.html"
+    },
+    {
       "folder": "hangman-game",
       "path": "./projects/hangman-game/project.json",
       "link": "./projects/hangman-game/index.html"
@@ -667,6 +687,11 @@
       "folder": "Hover maze",
       "path": "./projects/Hover maze/project.json",
       "link": "./projects/Hover maze/index.html"
+    },
+    {
+      "folder": "hsl-color-game",
+      "path": "./projects/hsl-color-game/project.json",
+      "link": "./projects/hsl-color-game/index.html"
     },
     {
       "folder": "HumanErrorPlayground",
@@ -799,6 +824,11 @@
       "link": "./projects/LiveWebcamToASCII/index.html"
     },
     {
+      "folder": "living-typrography",
+      "path": "./projects/living-typrography/project.json",
+      "link": "./projects/living-typrography/index.html"
+    },
+    {
       "folder": "Loot_Box_Simulator",
       "path": "./projects/Loot_Box_Simulator/project.json",
       "link": "./projects/Loot_Box_Simulator/index.html"
@@ -812,6 +842,11 @@
       "folder": "LSB Image Steganography Tool",
       "path": "./projects/LSB Image Steganography Tool/project.json",
       "link": "./projects/LSB Image Steganography Tool/index.html"
+    },
+    {
+      "folder": "Lunar-lander",
+      "path": "./projects/Lunar-lander/project.json",
+      "link": "./projects/Lunar-lander/index.html"
     },
     {
       "folder": "Luxury-Todo-list",
@@ -954,6 +989,11 @@
       "link": "./projects/my-stylish-to-do-list/index.html"
     },
     {
+      "folder": "MyFolio",
+      "path": "./projects/MyFolio/project.json",
+      "link": "./projects/MyFolio/index.html"
+    },
+    {
       "folder": "Neon Vortex",
       "path": "./projects/Neon Vortex/project.json",
       "link": "./projects/Neon Vortex/index.html"
@@ -1072,6 +1112,11 @@
       "folder": "Particle_Life_Simulation",
       "path": "./projects/Particle_Life_Simulation/project.json",
       "link": "./projects/Particle_Life_Simulation/index.html"
+    },
+    {
+      "folder": "Password-Generator",
+      "path": "./projects/Password-Generator/project.json",
+      "link": "./projects/Password-Generator/frontend/index.html"
     },
     {
       "folder": "password-strength-checker",
@@ -1409,6 +1454,11 @@
       "link": "./projects/sliding-image/index.html"
     },
     {
+      "folder": "smart-classrom-timetable",
+      "path": "./projects/smart-classrom-timetable/project.json",
+      "link": "./projects/smart-classrom-timetable/index.html"
+    },
+    {
       "folder": "Smart-Contract-Execution-Simulator",
       "path": "./projects/Smart-Contract-Execution-Simulator/project.json",
       "link": "./projects/Smart-Contract-Execution-Simulator/index.html"
@@ -1514,6 +1564,11 @@
       "link": "./projects/synthetic-exchange/index.html"
     },
     {
+      "folder": "SynthLab",
+      "path": "./projects/SynthLab/project.json",
+      "link": "./projects/SynthLab/index.html"
+    },
+    {
       "folder": "System-Design-Visualizer",
       "path": "./projects/System-Design-Visualizer/project.json",
       "link": "./projects/System-Design-Visualizer/index.html"
@@ -1557,6 +1612,11 @@
       "folder": "tic-tac-toe",
       "path": "./projects/tic-tac-toe/project.json",
       "link": "./projects/tic-tac-toe/index.html"
+    },
+    {
+      "folder": "tilting-maze",
+      "path": "./projects/tilting-maze/project.json",
+      "link": "./projects/tilting-maze/index.html"
     },
     {
       "folder": "Time-Perception-Experiment",
@@ -1664,6 +1724,11 @@
       "link": "./projects/VectorForge/index.html"
     },
     {
+      "folder": "virtual-keyboard",
+      "path": "./projects/virtual-keyboard/project.json",
+      "link": "./projects/virtual-keyboard/index.html"
+    },
+    {
       "folder": "Virtual_Control_Panel",
       "path": "./projects/Virtual_Control_Panel/project.json",
       "link": "./projects/Virtual_Control_Panel/index.html"
@@ -1709,6 +1774,11 @@
       "link": "./projects/Whack a Box/index.html"
     },
     {
+      "folder": "word-checker",
+      "path": "./projects/word-checker/project.json",
+      "link": "./projects/word-checker/index.html"
+    },
+    {
       "folder": "word-memory-game",
       "path": "./projects/word-memory-game/project.json",
       "link": "./projects/word-memory-game/index.html"
@@ -1727,61 +1797,6 @@
       "folder": "WorldMeetingPlanner",
       "path": "./projects/WorldMeetingPlanner/project.json",
       "link": "./projects/WorldMeetingPlanner/index.html"
-    },
-    {
-      "folder": "color-blindness-checker",
-      "path": "./projects/color-blindness-checker/project.json",
-      "link": "./projects/color-blindness-checker/index.html"
-    },
-    {
-      "folder": "evoshapes",
-      "path": "./projects/evoshapes/project.json",
-      "link": "./projects/evoshapes/index.html"
-    },
-    {
-      "folder": "synthetic-exchange",
-      "path": "./projects/synthetic-exchange/project.json",
-      "link": "./projects/synthetic-exchange/index.html"
-    },
-    {
-      "folder": "VirtuF",
-      "path": "./projects/virtuf/project.json",
-      "link": "./projects/virtuf/index.html"
-    },
-    {
-      "folder": "WebKernel",
-      "path": "./projects/webkernel/project.json",
-      "link": "./projects/webkernel/index.html"
-    },
-    {
-      "folder": "EvoRefresh",
-      "path": "./projects/evorefresh/project.json",
-      "link": "./projects/evorefresh/index.html"
-    },
-    {
-      "folder": "Flownet",
-      "path": "./projects/flownet/project.json",
-      "link": "./projects/flownet/index.html"
-    },
-     {
-      "folder": "voice-forge",
-      "path": "./projects/voice-forge/project.json",
-      "link": "./projects/voice-forge/index.html"
-    },
-    {
-      "folder": "Digital Mood Landscape",
-      "path": "./projects/Digital Mood Landscape/project.json",
-      "link": "./projects/Digital Mood Landscape/index.html"
-    },
-    {
-      "folder": "AsciiForge",
-      "path": "./projects/AsciiForge/project.json",
-      "link": "./projects/AsciiForge/index.html"
-    }
-    {
-      "folder": "MyFolio",
-      "path": "./projects/MyFolio/project.json",
-      "link": "./projects/MyFolio/index.html"
     }
   ]
 }
