@@ -5,6 +5,7 @@
 
 import { ProjectVisibilityEngine } from "./core/projectVisibilityEngine.js";
 import { keyevents } from "./core/Shortcut.js"
+import notificationManager from "./core/notificationManager.js";
 
 class ProjectManager {
     constructor() {
@@ -149,6 +150,9 @@ class ProjectManager {
             this.state.visibilityEngine = new ProjectVisibilityEngine(this.state.allProjects);
             this.state.visibilityEngine.state.itemsPerPage = this.config.ITEMS_PER_PAGE;
 
+            // Load state from URL after engine is ready
+            this.loadURLState();
+
             console.log(`📦 Loaded ${this.state.allProjects.length} projects.`);
             this.render();
 
@@ -256,12 +260,10 @@ class ProjectManager {
         if (el.filterBtns) {
             el.filterBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
-                    el.filterBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-
                     const filter = btn.dataset.filter;
-                    this.state.visibilityEngine?.setCategory(filter);
+                    this.state.visibilityEngine?.toggleCategory(filter);
                     this.state.currentPage = 1;
+                    this.updateFilterUI();
                     this.render();
                 });
             });
@@ -463,6 +465,12 @@ class ProjectManager {
                      onclick="window.projectManagerInstance.handleProjectClick(event, ${JSON.stringify(project).replace(/"/g, '&quot;')})">
                     ${badgeHtml}
                     <div class="card-actions">
+                        <button class="collection-btn ${isBookmarked ? 'visible' : ''}"
+                                data-project-title="${this.escapeHtml(project.title)}"
+                                onclick="event.preventDefault(); event.stopPropagation(); window.showCollectionDropdown(this, '${this.escapeHtml(project.title)}', '${this.escapeHtml(project.link)}', '${this.escapeHtml(project.category)}', '${this.escapeHtml(project.description || '')}');"
+                                title="Add to Collection">
+                            <i class="ri-folder-add-line"></i>
+                        </button>
                         <button class="bookmark-btn ${isBookmarked ? 'bookmarked' : ''}" 
                                 data-project-title="${this.escapeHtml(project.title)}" 
                                 onclick="event.preventDefault(); event.stopPropagation(); window.toggleProjectBookmark(this, '${this.escapeHtml(project.title)}', '${this.escapeHtml(project.link)}', '${this.escapeHtml(project.category)}', '${this.escapeHtml(project.description || '')}');"
@@ -474,6 +482,11 @@ class ProjectManager {
                            title="View Source Code">
                             <i class="ri-github-fill"></i>
                         </a>
+                        <button class="view-insights-btn"
+                                onclick="event.preventDefault(); event.stopPropagation(); window.openInsightsPanel('${this.escapeHtml(project.title)}');"
+                                title="View Community Insights">
+                            <i class="ri-lightbulb-line"></i>
+                        </button>
                     </div>
                     <div class="card-link">
                         <div class="card-cover ${coverClass}" style="${coverStyle}">
@@ -528,6 +541,11 @@ class ProjectManager {
                         <p class="list-card-description">${this.escapeHtml(project.description || '')}</p>
                     </div>
                     <div class="list-card-actions">
+                        <button class="collection-btn ${isBookmarked ? 'visible' : ''}"
+                                onclick="window.showCollectionDropdown(this, '${this.escapeHtml(project.title)}', '${this.escapeHtml(project.link)}', '${this.escapeHtml(project.category)}', '${this.escapeHtml(project.description || '')}');"
+                                title="Add to Collection">
+                            <i class="ri-folder-add-line"></i>
+                        </button>
                         <button class="bookmark-btn ${isBookmarked ? 'bookmarked' : ''}"
                                 onclick="window.toggleProjectBookmark(this, '${this.escapeHtml(project.title)}', '${this.escapeHtml(project.link)}', '${this.escapeHtml(project.category)}', '${this.escapeHtml(project.description || '')}');"
                                 title="${isBookmarked ? 'Remove from bookmarks' : 'Add to bookmarks'}">
@@ -609,6 +627,86 @@ class ProjectManager {
         }
         return link;
     }
+
+    /* -----------------------------------------------------------
+     * Multi-Filter and URL Persistence Logic
+     * ----------------------------------------------------------- */
+    updateFilterUI() {
+        const activeCategories = this.state.visibilityEngine.state.categories;
+        const el = this.elements;
+
+        if (!el.filterBtns) return;
+
+        el.filterBtns.forEach(btn => {
+            const filter = btn.dataset.filter.toLowerCase();
+            const isActive = activeCategories.has(filter);
+            btn.classList.toggle('active', isActive);
+        });
+    }
+
+    syncURLState() {
+        const engine = this.state.visibilityEngine;
+        if (!engine) return;
+
+        const params = new URLSearchParams(window.location.search);
+
+        // Search
+        if (engine.state.searchQuery) params.set('search', engine.state.searchQuery);
+        else params.delete('search');
+
+        // Categories
+        const cats = Array.from(engine.state.categories);
+        if (cats.length > 0 && !cats.includes('all')) {
+            params.set('cats', cats.join(','));
+        } else {
+            params.delete('cats');
+        }
+
+        // Page
+        if (this.state.currentPage > 1) params.set('page', this.state.currentPage);
+        else params.delete('page');
+
+        // View Mode
+        if (this.state.viewMode !== 'card') params.set('view', this.state.viewMode);
+        else params.delete('view');
+
+        const newRelativePathQuery = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+        window.history.replaceState({ path: newRelativePathQuery }, '', newRelativePathQuery);
+    }
+
+    loadURLState() {
+        const params = new URLSearchParams(window.location.search);
+        const engine = this.state.visibilityEngine;
+        if (!engine) return;
+
+        // Search
+        const search = params.get('search');
+        if (search) {
+            engine.setSearchQuery(search);
+            if (this.elements.searchInput) this.elements.searchInput.value = search;
+        }
+
+        // Categories
+        const cats = params.get('cats');
+        if (cats) {
+            engine.state.categories.clear();
+            cats.split(',').forEach(c => engine.state.categories.add(c.toLowerCase()));
+            this.updateFilterUI();
+        }
+
+        // Page
+        const page = parseInt(params.get('page'));
+        if (page && !isNaN(page)) this.state.currentPage = page;
+
+        // View Mode
+        const view = params.get('view');
+        if (view === 'list' || view === 'card') {
+            this.state.viewMode = view;
+            const el = this.elements;
+            el.cardViewBtn?.classList.toggle('active', view === 'card');
+            el.listViewBtn?.classList.toggle('active', view === 'list');
+        }
+    }
 }
 
 /* -----------------------------------------------------------
@@ -658,21 +756,162 @@ window.toggleProjectBookmark = function (btn, title, link, category, description
     showToast(isNowBookmarked ? 'Added to bookmarks' : 'Removed from bookmarks');
 };
 
-function showToast(message) {
-    const existing = document.querySelector('.bookmark-toast');
-    if (existing) existing.remove();
-
-    const toast = document.createElement('div');
-    toast.className = 'bookmark-toast';
-    toast.innerHTML = `<i class="ri-bookmark-fill"></i><span>${message}</span>`;
-    document.body.appendChild(toast);
-
-    setTimeout(() => toast.classList.add('show'), 10);
+/**
+ * Global Collection Dropdown Function
+ */
+window.showCollectionDropdown = function (btn, title, link, category, description) {
+    if (!window.bookmarksManager) return;
+    
+    // Ensure project is bookmarked first
+    const project = { title, link, category, description };
+    if (!window.bookmarksManager.isBookmarked(title)) {
+        window.bookmarksManager.addBookmark(project);
+        
+        // Update bookmark button state
+        const card = btn.closest('.card, .list-card');
+        if (card) {
+            const bookmarkBtn = card.querySelector('.bookmark-btn');
+            if (bookmarkBtn) {
+                bookmarkBtn.classList.add('bookmarked');
+                const icon = bookmarkBtn.querySelector('i');
+                if (icon) icon.className = 'ri-bookmark-fill';
+            }
+        }
+        
+        notificationManager.success('Added to bookmarks');
+    }
+    
+    // Remove any existing dropdown
+    const existingDropdown = document.querySelector('.collection-dropdown');
+    if (existingDropdown) {
+        existingDropdown.remove();
+    }
+    
+    const collections = window.bookmarksManager.getAllCollections();
+    const projectCollections = window.bookmarksManager.getProjectCollections(title);
+    
+    const dropdown = document.createElement('div');
+    dropdown.className = 'collection-dropdown';
+    
+    const escapeHtml = (str) => {
+        if (!str) return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    };
+    
+    const escapeHtmlAttr = (str) => {
+        if (!str) return '';
+        return str.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    };
+    
+    let collectionsHtml = collections.map(collection => {
+        const isInCollection = projectCollections.some(c => c.id === collection.id);
+        return `
+            <button class="collection-dropdown-item ${isInCollection ? 'in-collection' : ''}" 
+                    data-collection-id="${collection.id}"
+                    data-project-title="${escapeHtmlAttr(title)}">
+                <i class="${collection.icon}" style="color: ${collection.color}"></i>
+                <span>${escapeHtml(collection.name)}</span>
+                ${isInCollection ? '<i class="ri-check-line check-icon"></i>' : ''}
+            </button>
+        `;
+    }).join('');
+    
+    dropdown.innerHTML = `
+        <div class="collection-dropdown-header">
+            <span>Add to Collection</span>
+        </div>
+        <div class="collection-dropdown-list">
+            ${collectionsHtml}
+        </div>
+        <div class="collection-dropdown-footer">
+            <button class="collection-dropdown-create">
+                <i class="ri-add-line"></i>
+                <span>New Collection</span>
+            </button>
+        </div>
+    `;
+    
+    // Position the dropdown
+    const rect = btn.getBoundingClientRect();
+    dropdown.style.position = 'fixed';
+    dropdown.style.top = `${rect.bottom + 8}px`;
+    dropdown.style.left = `${Math.min(rect.left, window.innerWidth - 220)}px`;
+    dropdown.style.zIndex = '10001';
+    
+    document.body.appendChild(dropdown);
+    
+    // Handle collection item clicks
+    dropdown.querySelectorAll('.collection-dropdown-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const collectionId = item.dataset.collectionId;
+            const projectTitle = item.dataset.projectTitle;
+            
+            if (item.classList.contains('in-collection')) {
+                window.bookmarksManager.removeFromCollection(projectTitle, collectionId);
+                item.classList.remove('in-collection');
+                item.querySelector('.check-icon')?.remove();
+                notificationManager.success('Removed from collection');
+            } else {
+                window.bookmarksManager.addToCollection(projectTitle, collectionId);
+                item.classList.add('in-collection');
+                const checkIcon = document.createElement('i');
+                checkIcon.className = 'ri-check-line check-icon';
+                item.appendChild(checkIcon);
+                notificationManager.success('Added to collection');
+            }
+        });
+    });
+    
+    // Handle create collection button
+    dropdown.querySelector('.collection-dropdown-create').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dropdown.remove();
+        if (window.showCreateCollectionModal) {
+            window.showCreateCollectionModal(title);
+        }
+    });
+    
+    // Close dropdown when clicking outside
+    const closeDropdown = (e) => {
+        if (!dropdown.contains(e.target) && e.target !== btn) {
+            dropdown.remove();
+            document.removeEventListener('click', closeDropdown);
+        }
+    };
+    
     setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 300);
-    }, 2000);
-}
+        document.addEventListener('click', closeDropdown);
+    }, 0);
+};
+
+// Toast notifications are now handled by NotificationManager
+
+/**
+ * Global Sandbox Preview Handler
+ * Feature #1334: Project Playground Sandbox & Live Preview
+ */
+window.openSandboxPreview = function(btn) {
+    if (!window.sandboxEngine) {
+        console.warn('Sandbox engine not loaded');
+        return;
+    }
+    
+    try {
+        const projectData = btn.dataset.project;
+        if (projectData) {
+            const project = JSON.parse(projectData);
+            window.sandboxEngine.open(project);
+        }
+    } catch (e) {
+        console.error('Failed to open sandbox preview:', e);
+    }
+};
 
 // ===============================
 // Global Initialization
@@ -703,16 +942,29 @@ document.addEventListener('componentLoaded', (e) => {
     }
 });
 
+// Initialize Command Palette
+let commandPalette = null;
+function initCommandPalette() {
+    const manager = window.projectManagerInstance;
+    if (manager && !commandPalette) {
+        commandPalette = new CommandPalette(manager);
+        keyevents(commandPalette); // Pass command palette instance to keyboard handler
+        console.log("✨ Command Palette initialized");
+    }
+}
+
 // Also check immediately in case components already loaded (module timing issue)
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-        keyevents();
+        initCommandPalette();
         setTimeout(initProjectManager, 100); // Small delay to ensure components are ready
+        setTimeout(checkInsightDeepLink, 600); // Check for insight deep links
     });
 } else {
     // DOM already loaded
-    keyevents();
+    initCommandPalette();
     setTimeout(initProjectManager, 100);
+    setTimeout(checkInsightDeepLink, 600);
 }
 
 // Fade-in animation observer

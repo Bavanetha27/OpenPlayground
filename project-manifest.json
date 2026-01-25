@@ -1,7 +1,7 @@
 {
   "version": "2.1",
-  "generated": "2026-01-24T16:38:07.796Z",
-  "count": 359,
+  "generated": "2026-01-25T17:17:34.131Z",
+  "count": 368,
   "projects": [
     {
       "folder": "15 Sliding Puzzle",
@@ -24,6 +24,11 @@
       "link": "./projects/365Days/index.html"
     },
     {
+      "folder": "3DMouse",
+      "path": "./projects/3DMouse/project.json",
+      "link": "./projects/3DMouse/index.html"
+    },
+    {
       "folder": "AccessibilityColorLab",
       "path": "./projects/AccessibilityColorLab/project.json",
       "link": "./projects/AccessibilityColorLab/index.html"
@@ -32,6 +37,16 @@
       "folder": "AccessibilityContrastChecker",
       "path": "./projects/AccessibilityContrastChecker/project.json",
       "link": "./projects/AccessibilityContrastChecker/index.html"
+    },
+    {
+      "folder": "Add Interview-Scheduler-project",
+      "path": "./projects/Add Interview-Scheduler-project/project.json",
+      "link": "./projects/Add Interview-Scheduler-project/index.html"
+    },
+    {
+      "folder": "Add Lego Builder Project",
+      "path": "./projects/Add Lego Builder Project/project.json",
+      "link": "./projects/Add Lego Builder Project/index.html"
     },
     {
       "folder": "advanced reaction time",
@@ -132,6 +147,11 @@
       "folder": "battery-detector",
       "path": "./projects/battery-detector/project.json",
       "link": "./projects/battery-detector/index.html"
+    },
+    {
+      "folder": "Battle-of-Elements-Game",
+      "path": "./projects/Battle-of-Elements-Game/project.json",
+      "link": "./projects/Battle-of-Elements-Game/index.html"
     },
     {
       "folder": "BinaryBrainGame",
@@ -264,6 +284,16 @@
       "link": "./projects/CodeEditor/index.html"
     },
     {
+      "folder": "file-size-converter",
+      "path": "./projects/file-size-converter/project.json",
+      "link": "./projects/file-size-converter/index.html"
+    },
+    {
+      "folder": "MemoryFade",
+      "path": "./projects/MemoryFade/project.json",
+      "link": "./projects/MemoryFade/index.html"
+    },
+    {
       "folder": "codepong26",
       "path": "./projects/codepong26/project.json",
       "link": "./projects/codepong26/index.html"
@@ -277,6 +307,11 @@
       "folder": "color-blindness-checker",
       "path": "./projects/color-blindness-checker/project.json",
       "link": "./projects/color-blindness-checker/index.html"
+    },
+    {
+      "folder": "text-analyzer",
+      "path": "./projects/text-analyzer/project.json",
+      "link": "./projects/text-analyzer/index.html"
     },
     {
       "folder": "color-code-converter",
@@ -302,6 +337,11 @@
       "folder": "connect-four",
       "path": "./projects/connect-four/project.json",
       "link": "./projects/connect-four/index.html"
+    },
+    {
+      "folder": "ConnectFour",
+      "path": "./projects/ConnectFour/project.json",
+      "link": "./projects/ConnectFour/index.html"
     },
     {
       "folder": "contact-page",
@@ -654,6 +694,11 @@
       "link": "./projects/guess-the-number/index.html"
     },
     {
+      "folder": "Guess-word-Game",
+      "path": "./projects/Guess-word-Game/project.json",
+      "link": "./projects/Guess-word-Game/index.html"
+    },
+    {
       "folder": "GuessNumber",
       "path": "./projects/GuessNumber/project.json",
       "link": "./projects/GuessNumber/index.html"
@@ -672,6 +717,11 @@
       "folder": "hangman-game",
       "path": "./projects/hangman-game/project.json",
       "link": "./projects/hangman-game/index.html"
+    },
+    {
+      "folder": "harmonicjs",
+      "path": "./projects/harmonicjs/project.json",
+      "link": "./projects/harmonicjs/index.html"
     },
     {
       "folder": "Holi-Havoc-Game",
@@ -1359,6 +1409,11 @@
       "link": "./projects/RegexTester/index.html"
     },
     {
+      "folder": "responsive-landing-page",
+      "path": "./projects/responsive-landing-page/project.json",
+      "link": "./projects/responsive-landing-page/index.html"
+    },
+    {
       "folder": "Retro-StyleLinuxCommand",
       "path": "./projects/Retro-StyleLinuxCommand/project.json",
       "link": "./projects/Retro-StyleLinuxCommand/index.html"
@@ -1527,6 +1582,11 @@
       "folder": "SQL_Query_Visualizer",
       "path": "./projects/SQL_Query_Visualizer/project.json",
       "link": "./projects/SQL_Query_Visualizer/index.html"
+    },
+    {
+      "folder": "Stacking-Cards",
+      "path": "./projects/Stacking-Cards/project.json",
+      "link": "./projects/Stacking-Cards/index.html"
     },
     {
       "folder": "StackvsQueue_Visualizer",

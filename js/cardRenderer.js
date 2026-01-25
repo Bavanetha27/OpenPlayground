@@ -56,13 +56,34 @@ export function createProjectCard(project) {
     const coverClass = project.coverClass || '';
     const sourceUrl = getSourceCodeUrl(project.link);
 
+    // Create project data for tracking
+    const projectDataStr = JSON.stringify({
+        title: project.title,
+        link: project.link,
+        category: project.category,
+        description: project.description || ''
+    }).replace(/'/g, "\\'");
+
     // Note: We're using onclick handlers here to maintain compatibility with existing global functions
     // but ideally these should be event listeners attached after rendering.
     // Keeping it simple for this refactor to match existing pattern.
 
+    // Create project data for Try It button
+    const projectData = JSON.stringify({
+        title: project.title,
+        link: project.link,
+        description: project.description || '',
+        category: project.category
+    }).replace(/'/g, "\\'");
+
     return `
-        <div class="card" data-category="${escapeHtml(project.category)}" onclick="window.location.href='${escapeHtml(project.link)}'; event.stopPropagation();">
+        <div class="card" data-category="${escapeHtml(project.category)}" onclick="window.trackProjectView && window.trackProjectView(${projectDataStr.replace(/"/g, '&quot;')}); window.location.href='${escapeHtml(project.link)}'; event.stopPropagation();">
             <div class="card-actions">
+                <button class="try-it-btn" 
+                        onclick="event.preventDefault(); event.stopPropagation(); window.openCodePlayground && window.openCodePlayground(${projectData.replace(/"/g, '&quot;')});"
+                        title="Try this project in Code Playground">
+                    <i class="ri-play-circle-line"></i> Try It
+                </button>
                 <button class="bookmark-btn ${isBookmarked ? 'bookmarked' : ''}" 
                         data-project-title="${escapeHtml(project.title)}" 
                         onclick="event.preventDefault(); event.stopPropagation(); window.toggleProjectBookmark(this, '${escapeHtml(project.title)}', '${escapeHtml(project.link)}', '${escapeHtml(project.category)}', '${escapeHtml(project.description || '')}');"
@@ -103,6 +124,14 @@ export function createProjectListCard(project) {
     const coverClass = project.coverClass || '';
     const sourceUrl = getSourceCodeUrl(project.link);
 
+    // Create project data for Try It button
+    const projectData = JSON.stringify({
+        title: project.title,
+        link: project.link,
+        description: project.description || '',
+        category: project.category
+    }).replace(/'/g, "\\'");
+
     return `
         <div class="list-card">
             <div class="list-card-icon ${coverClass}" style="${coverStyle}">
@@ -115,6 +144,11 @@ export function createProjectListCard(project) {
             <div class="list-card-meta">
                 <span class="list-card-category">${capitalize(project.category || 'project')}</span>
                 <div class="list-card-actions">
+                    <button class="list-card-btn try-it-list-btn" 
+                            onclick="event.stopPropagation(); window.openCodePlayground && window.openCodePlayground(${projectData.replace(/"/g, '&quot;')});"
+                            title="Try in Code Playground">
+                        <i class="ri-play-circle-line"></i>
+                    </button>
                     <button class="list-card-btn ${isBookmarked ? 'bookmarked' : ''}" 
                             onclick="window.toggleProjectBookmark(this, '${escapeHtml(project.title)}', '${escapeHtml(project.link)}', '${escapeHtml(project.category)}', '${escapeHtml(project.description || '')}');">
                         <i class="${isBookmarked ? 'ri-bookmark-fill' : 'ri-bookmark-line'}"></i>

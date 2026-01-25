@@ -9,6 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
+  <script type="module" src="./js/core/notificationManager.js"></script>
+  <script type="module" src="./js/core/validationEngine.js"></script>
 
   <link rel="stylesheet" href="./css/responsive.css" />
   <link rel="stylesheet" href="./css/style.css" />
@@ -252,10 +254,6 @@
               <i class="ri-folder-open-line"></i>
               <span>Projects</span>
             </a>
-            <a href="index.html#contribute" class="footer-link">
-              <i class="ri-git-pull-request-line"></i>
-              <span>Contribute</span>
-            </a>
             <a href="about.html" class="footer-link">
               <i class="ri-information-line"></i>
               <span>About Us</span>
@@ -487,15 +485,16 @@
         newsletterForm.addEventListener('submit', function (e) {
           e.preventDefault();
 
-          const email = this.querySelector('input[type="email"]').value;
+          const emailInput = this.querySelector('input[type="email"]');
+          const email = emailInput.value.trim();
 
-          if (!email.trim()) {
-            alert('Please enter your email address');
+          if (!window.ValidationEngine.validateEmail(email)) {
+            window.notificationManager.error('Please enter a valid email address');
             return;
           }
 
           // Show success message
-          alert('Thank you for subscribing! You\'ll receive updates soon.');
+          window.notificationManager.success('Thank you for subscribing! You\'ll receive updates soon.');
 
           // Reset form
           this.reset();
