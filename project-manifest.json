@@ -284,6 +284,16 @@
       "link": "./projects/CodeEditor/index.html"
     },
     {
+      "folder": "file-size-converter",
+      "path": "./projects/file-size-converter/project.json",
+      "link": "./projects/file-size-converter/index.html"
+    },
+    {
+      "folder": "MemoryFade",
+      "path": "./projects/MemoryFade/project.json",
+      "link": "./projects/MemoryFade/index.html"
+    },
+    {
       "folder": "codepong26",
       "path": "./projects/codepong26/project.json",
       "link": "./projects/codepong26/index.html"
@@ -297,6 +307,11 @@
       "folder": "color-blindness-checker",
       "path": "./projects/color-blindness-checker/project.json",
       "link": "./projects/color-blindness-checker/index.html"
+    },
+    {
+      "folder": "text-analyzer",
+      "path": "./projects/text-analyzer/project.json",
+      "link": "./projects/text-analyzer/index.html"
     },
     {
       "folder": "color-code-converter",
