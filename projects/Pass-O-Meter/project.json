@@ -1,6 +1,0 @@
-{
-  "name": "Pass-O-Meter",
-  "description": "A visual password strength analyzer that calculates entropy and estimated crack time.",
-  "path": "projects/Pass-O-Meter/index.html",
-  "tags": ["utility", "security", "tool"]
-}
