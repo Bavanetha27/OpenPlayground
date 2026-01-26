@@ -1,0 +1,6 @@
+{
+  "name": "RegEx-Viz",
+  "description": "A real-time regular expression tester and visualizer.",
+  "path": "projects/RegEx-Viz/index.html",
+  "tags": ["utility", "developer-tools", "regex", "text"]
+}
