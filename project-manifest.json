@@ -1937,11 +1937,15 @@
       "folder": "WorldMeetingPlanner",
       "path": "./projects/WorldMeetingPlanner/project.json",
       "link": "./projects/WorldMeetingPlanner/index.html"
+ add-color-palette-generator
+ add-color-palette-generator
+
     },
     {
       "folder": "ResonanceForge",
       "path": "./projects/resonanceforge/project.json",
       "link": "./projects/resonanceforge/index.html"
+ main
     },
     {
       "folder": "color-blindness-checker",
@@ -1949,6 +1953,13 @@
       "link": "./projects/color-blindness-checker/index.html"
     },
     {
+  add-color-palette-generator
+      "folder": "palette-generator",
+      "path": "./projects/palette-generator/project.json",
+      "link": "./projects/palette-generator/index.html"
+
+ main
+
       "folder": "evoshapes",
       "path": "./projects/evoshapes/project.json",
       "link": "./projects/evoshapes/index.html"
@@ -1972,6 +1983,9 @@
       "folder": "EvoRefresh",
       "path": "./projects/evorefresh/project.json",
       "link": "./projects/evorefresh/index.html"
+      "folder": "Flownet",
+      "path": "./projects/flownet/project.json",
+      "link": "./projects/flownet/index.html"
     },
     {
       "folder": "Flownet",
@@ -1989,6 +2003,9 @@
       "link": "./projects/Digital Mood Landscape/index.html"
     },
     {
+      "folder": "ScribeWord",
+      "path": "./projects/ScribeWord/project.json",
+      "link": "./projects/ScribeWord/index.html"
       "folder": "Harmonicajs",
       "path": "./projects/harmonicjs/project.json",
       "link": "./projects/harmonicjs/index.html"
@@ -1997,6 +2014,11 @@
       "folder": "chemistryLab",
       "path": "./projects/chemistryLab/project.json",
       "link": "./projects/chemistryLab/index.html"
+    },
+    {
+      "folder": "ConstellationBuilder",
+      "path": "./projects/ConstellationBuilder/project.json",
+      "link": "./projects/ConstellationBuilder/index.html"
     },
     {
       "folder": "AsciiForge",
@@ -2027,11 +2049,21 @@
       "folder": "mousetone",
       "path": "./projects/mousetone/project.json",
       "link": "./projects/mousetone/index.html"
+ add-color-palette-generator
+ main
+
     },
     {
       "folder": "emotion-theme",
       "path": "./projects/emotion-theme/project.json",
       "link": "./projects/emotion-theme/index.html"
+ main
+    }
+    {
+      "folder": "snake world",
+      "path": "./projects/snake world/project.json",
+      "link": "./projects/snake world/index.html"
+     
     }
   ]
 }
