@@ -1949,6 +1949,11 @@
       "link": "./projects/WorldMeetingPlanner/index.html"
     },
     {
+      "folder": "staircase",
+      "path": "./projects/staircase/project.json",
+      "link": "./projects/staircase/index.html"
+    },
+    {
       "folder": "Focus Timer Pro",
       "path": "./projects/Focus-Timer-Pro/project.json",
       "link": "./projects/Focus-Timer-Pro/index.html"
