@@ -25,7 +25,7 @@ let gameTime = 0;
 // --- Player ---
 const player = {
     x: 100,
-    y: 0,
+    y: 100,
     w: 40,
     h: 40,
     vy: 0,
