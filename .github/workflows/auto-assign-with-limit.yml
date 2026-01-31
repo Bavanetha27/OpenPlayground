@@ -1,11 +1,11 @@
-name: Auto-assign issue with limit
+name: Auto-assign issue with limit and queue
 
 on:
   issues:
-    types: [opened]
+    types: [opened, closed]
 
 jobs:
-  auto-assign:
+  manage-assignments:
     runs-on: ubuntu-latest
 
     permissions:
@@ -13,42 +13,74 @@ jobs:
       contents: read
 
     steps:
-      - name: Check assignment limit and assign issue
+      - name: Handle issue assignment with limit
         uses: actions/github-script@v7
         with:
           script: |
-            const username = context.payload.issue.user.login;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
+            const issue = context.payload.issue;
+            const username = issue.user.login;
 
-            // Get all open issues assigned to this user in this repo
-            const { data: issues } = await github.rest.search.issuesAndPullRequests({
+            // Get open issues assigned to this user
+            const assignedRes = await github.rest.search.issuesAndPullRequests({
               q: `repo:${owner}/${repo} type:issue state:open assignee:${username}`
             });
 
-            const openAssignedCount = issues.total_count;
+            const activeCount = assignedRes.data.total_count;
 
-            if (openAssignedCount >= 4) {
-              await github.rest.issues.createComment({
-                owner,
-                repo,
-                issue_number: context.issue.number,
-                body: `⚠️ Hi @${username}, you already have **${openAssignedCount} active issues assigned**.\n\nYou can only have **4 open issues at a time**. Please complete or close your existing issues (merge related PRs) before taking a new one. 🚀`
-              });
+            // Get unassigned open issues created by this user (oldest first)
+            const pendingRes = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${owner}/${repo} type:issue state:open author:${username} no:assignee`,
+              sort: "created",
+              order: "asc"
+            });
 
-              core.setFailed(`User already has ${openAssignedCount} assigned issues.`);
-            } else {
-              await github.rest.issues.addAssignees({
-                owner,
-                repo,
-                issue_number: context.issue.number,
-                assignees: [username]
-              });
+            const pendingIssues = pendingRes.data.items;
 
-              await github.rest.issues.createComment({
-                owner,
-                repo,
-                issue_number: context.issue.number,
-                body: `✅ Issue successfully assigned to @${username}.\n\nYou now have **${openAssignedCount + 1}/4 active issues**. Good luck! 💪`
-              });
+            // CASE 1: New issue opened
+            if (context.payload.action === "opened") {
+              if (activeCount < 4) {
+                await github.rest.issues.addAssignees({
+                  owner,
+                  repo,
+                  issue_number: issue.number,
+                  assignees: [username]
+                });
+
+                await github.rest.issues.createComment({
+                  owner,
+                  repo,
+                  issue_number: issue.number,
+                  body: `✅ Assigned to @${username}. You now have **${activeCount + 1}/4 active issues**. 🚀`
+                });
+              } else {
+                await github.rest.issues.createComment({
+                  owner,
+                  repo,
+                  issue_number: issue.number,
+                  body: `⏳ Hi @${username}, you already have **4 active issues assigned**.\n\nThis issue is added to your queue and will be auto-assigned when one of your current issues is closed.`
+                });
+              }
+            }
+
+            // CASE 2: Issue closed → try assigning next pending issue
+            if (context.payload.action === "closed") {
+              if (activeCount < 4 && pendingIssues.length > 0) {
+                const nextIssue = pendingIssues[0];
+
+                await github.rest.issues.addAssignees({
+                  owner,
+                  repo,
+                  issue_number: nextIssue.number,
+                  assignees: [username]
+                });
+
+                await github.rest.issues.createComment({
+                  owner,
+                  repo,
+                  issue_number: nextIssue.number,
+                  body: `🎉 @${username}, one of your issues was closed, so this queued issue is now assigned to you.\n\nYou now have **${activeCount + 1}/4 active issues**.`
+                });
+              }
             }
