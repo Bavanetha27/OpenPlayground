@@ -1879,6 +1879,11 @@
       "link": "./projects/virtuf/index.html"
     },
     {
+      "folder": "virtual-pet-care-simulator",
+      "path": "./projects/virtual-pet-care-simulator/project.json",
+      "link": "./projects/virtual-pet-care-simulator/index.html"
+    },
+    {
       "folder": "Visual_Rhythm_Game",
       "path": "./projects/Visual_Rhythm_Game/project.json",
       "link": "./projects/Visual_Rhythm_Game/index.html"
