@@ -1735,5 +1735,10 @@
       "path": "./projects/Digital Mood Landscape/project.json",
       "link": "./projects/Digital Mood Landscape/index.html"
     }
+    {
+      "folder": "ValForm",
+      "path": "./projects/ValForm/project.json",
+      "link": "./projects/ValForm/index.html"
+    }
   ]
 }
