@@ -2057,6 +2057,11 @@
       "link":"./projects/Matching-Cards/index.html"
     },
     {
+      "folder":"Studenthousefinder",
+      "path":"./projects/Studenthousefinder/project.json",
+      "link":"./projects/Studenthousefinder/index.html"
+    },
+    {
       "folder":"Productivity Dashboard",
       "path":"./projects/Productivity Dashboard/project.json",
       "link":"./projects/Productivity Dashboard/index.html"
@@ -2071,6 +2076,22 @@
       "path":"./projects/one pager/project.json",
       "link":"./projects/one pager/index.html"
     },
+    {
+      "folder":"Weather-app",
+      "path":"./projects/Weather-app/project.json",
+      "link":"./projects/Weather-app/index.html"
+    },
+    {
+      "folder": "expensetracker",
+      "path": "./projects/expensetracker/project.json",
+      "link": "./projects/expensetracker/index.html"
+    },
+    {
+      "folder": "Schoolwebsite",
+      "path": "./projects/Schoolwebsite/project.json",
+      "link": "./projects/Schoolwebsite/index.html"
+    }
+    ,
     {
       "folder": "Calci",
       "path": "./projects/Calci/project.json",
@@ -2101,12 +2122,23 @@
       "folder": "time-date-habit-detector",
       "path": "./projects/time-date-habit-detector/project.json",
       "link": "./projects/time-date-habit-detector/index.html"
-    }
+    },
     {
       "folder": "ValForm",
       "path": "./projects/ValForm/project.json",
       "link": "./projects/ValForm/index.html"
+    },
+    {
+      "folder": "battery-status-viewer",
+      "path": "./projects/battery-status-viewer/project.json",
+      "link": "./projects/battery-status-viewer/index.html"
+    },
+    {
+      "folder": "FocusYou",
+      "path": "./projects/FocusYou/project.json",
+      "link": "./projects/FocusYou/index.html"
     }
+  
   
   
   ]
