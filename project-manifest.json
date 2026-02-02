@@ -2106,7 +2106,13 @@
       "folder": "ValForm",
       "path": "./projects/ValForm/project.json",
       "link": "./projects/ValForm/index.html"
+    },
+    {
+      "folder": "battery-status-viewer",
+      "path": "./projects/battery-status-viewer/project.json",
+      "link": "./projects/battery-status-viewer/index.html"
     }
+  
   
   
   ]
