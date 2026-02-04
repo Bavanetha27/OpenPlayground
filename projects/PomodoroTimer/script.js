@@ -1,3 +1,21 @@
+const lofiMusic = new Audio("assets/lofi.mp3");
+lofiMusic.loop = true;
+
+let isMusicPlaying = false;
+
+const musicBtn = document.getElementById("musicBtn");
+
+musicBtn.addEventListener("click", () => {
+  if (!isMusicPlaying) {
+    lofiMusic.play();
+    musicBtn.textContent = "⏸ Pause Music";
+  } else {
+    lofiMusic.pause();
+    musicBtn.textContent = "🎵 Play Music";
+  }
+  isMusicPlaying = !isMusicPlaying;
+});
+
 const timerDisplay = document.getElementById('time');
 const startBtn = document.getElementById('start-btn');
 const pauseBtn = document.getElementById('pause-btn');
@@ -108,6 +126,13 @@ function resetTimer() {
     pauseTimer();
     timeLeft = MODES[currentMode].time * 60;
     updateDisplay();
+    handleBackgroundMusic('pause');
+    
+    lofiMusic.pause();
+    lofiMusic.currentTime = 0;
+    isMusicPlaying = false;
+    musicBtn.textContent = "🎵 Play Music";
+
 }
 
 function handleTimerComplete() {
