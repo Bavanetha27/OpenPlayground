@@ -14,31 +14,6 @@ class ProjectManager {
     if (window.projectManagerInstance) {
       console.log('♻️ ProjectManager: Instance already exists.');
       return window.projectManagerInstance;
-    constructor() {
-        // Prevent multiple instances
-        if (window.projectManagerInstance) {
-            console.log("♻️ ProjectManager: Instance already exists.");
-            return window.projectManagerInstance;
-        }
-
-        this.config = {
-            ITEMS_PER_PAGE: 12,
-            ANIMATION_DELAY: 50
-        };
-
-        this.state = {
-            allProjects: [],
-            visibilityEngine: null,
-            viewMode: 'card',
-            currentPage: 1,
-            initialized: false,
-            dynamicPlaceholderStarted: false // Added state flag
-        };
-
-        this.elements = null;
-        this.analyticsEngine = window.analyticsEngine || null;
-        this.viewportObserver = null; // For tracking card views
-        window.projectManagerInstance = this;
     }
 
     this.config = {
@@ -52,6 +27,7 @@ class ProjectManager {
       viewMode: 'card',
       currentPage: 1,
       initialized: false,
+      dynamicPlaceholderStarted: false,
     };
 
     this.elements = null;
@@ -72,63 +48,44 @@ class ProjectManager {
 
     // Initialize analytics integration
     this.initializeAnalytics();
-       this.state.initialized = true;
-console.log("✅ ProjectManager: Ready.");
-
-this.startDynamicSearchPlaceholder();
-
-    }
-
-    /**
-     * Cycles through search examples in the placeholder to guide users
-     */
-    startDynamicSearchPlaceholder() {
-        if (this.state.dynamicPlaceholderStarted) return;
-        this.state.dynamicPlaceholderStarted = true;
-
-        const input = this.elements.searchInput;
-        if (!input) return;
-
-        const placeholders = [
-            "Search 'Tic Tac Toe'…",
-            "Search 'Expense Tracker'…",
-            "Search 'Weather App'…",
-            "Search 'Password Generator'…"
-        ];
-
-        let index = 0;
-
-        setInterval(() => {
-            // Only update if user isn't currently typing
-            if (document.activeElement !== input) {
-                input.placeholder = placeholders[index % placeholders.length];
-                index++;
-            }
-        }, 2500);
-
-        console.log("✅ Dynamic placeholder activated");
-    }
-
-
-    /**
-     * Initialize analytics engine integration
-     */
-    initializeAnalytics() {
-        // Get analytics engine from global scope
-        this.analyticsEngine = window.analyticsEngine || null;
-
-        if (this.analyticsEngine && this.state.visibilityEngine) {
-            // Connect analytics to visibility engine
-            this.state.visibilityEngine.setAnalyticsEngine(this.analyticsEngine);
-            console.log("📊 Analytics Engine connected to ProjectManager");
-        }
-    }
 
     // Setup viewport observer for tracking card views
     this.setupViewportObserver();
 
     this.state.initialized = true;
     console.log('✅ ProjectManager: Ready.');
+
+    this.startDynamicSearchPlaceholder();
+  }
+
+  /**
+   * Cycles through search examples in the placeholder to guide users
+   */
+  startDynamicSearchPlaceholder() {
+    if (this.state.dynamicPlaceholderStarted) return;
+    this.state.dynamicPlaceholderStarted = true;
+
+    const input = this.elements.searchInput;
+    if (!input) return;
+
+    const placeholders = [
+      "Search 'Tic Tac Toe'…",
+      "Search 'Expense Tracker'…",
+      "Search 'Weather App'…",
+      "Search 'Password Generator'…",
+    ];
+
+    let index = 0;
+
+    setInterval(() => {
+      // Only update if user isn't currently typing
+      if (document.activeElement !== input) {
+        input.placeholder = placeholders[index % placeholders.length];
+        index++;
+      }
+    }, 2500);
+
+    console.log('✅ Dynamic placeholder activated');
   }
 
   /**
@@ -380,49 +337,6 @@ this.startDynamicSearchPlaceholder();
     this.state.visibilityEngine?.updateURL(this.state.viewMode);
     this.render();
   }
-    /* -----------------------------------------------------------
-     * Rendering Logic
-     * ----------------------------------------------------------- */
-    render() {
-        if (!this.state.visibilityEngine) return;
-
-        const el = this.elements;
-
-        this.state.visibilityEngine.setPage(this.state.currentPage);
-
-        // Get sort mode and set in visibility engine
-        const sortMode = el.sortSelect?.value || 'default';
-        this.state.visibilityEngine.setSortMode(sortMode);
-
-        // Get filtered and sorted projects from visibility engine
-        let filtered = this.state.visibilityEngine.getVisibleProjects();
-
-        if (sortMode === 'az') filtered.sort((a, b) => a.title.localeCompare(b.title));
-        else if (sortMode === 'za') filtered.sort((a, b) => b.title.localeCompare(a.title));
-        else if (sortMode === 'newest') filtered.reverse();
-        else if (sortMode === 'deadline') filtered = deadlineManager.sortByDeadline(filtered);
-        else if (sortMode === 'importance') filtered = deadlineManager.sortByImportance(filtered);
-
-        // Pagination
-        const totalPages = Math.ceil(filtered.length / this.config.ITEMS_PER_PAGE);
-        const start = (this.state.currentPage - 1) * this.config.ITEMS_PER_PAGE;
-        const pageItems = filtered.slice(start, start + this.config.ITEMS_PER_PAGE);
-
-        // Grid/List display management
-        if (el.projectsGrid) {
-            el.projectsGrid.style.display = this.state.viewMode === 'card' ? 'grid' : 'none';
-            el.projectsGrid.innerHTML = '';
-        }
-        if (el.projectsList) {
-            el.projectsList.style.display = this.state.viewMode === 'list' ? 'flex' : 'none';
-            el.projectsList.innerHTML = '';
-        }
-
-        if (pageItems.length === 0) {
-            if (el.emptyState) el.emptyState.style.display = 'block';
-            this.renderPagination(0);
-            return;
-        }
 
   setupSearchSuggestions(searchInput) {
     const suggestionsContainer = document.createElement('div');
@@ -521,6 +435,11 @@ this.startDynamicSearchPlaceholder();
 
     // Get sort mode and set in visibility engine
     const sortMode = el.sortSelect?.value || 'default';
+    this.state.visibilityEngine.setSortMode(sortMode);
+
+    // Get filtered and sorted projects from visibility engine
+    let filtered = this.state.visibilityEngine.getVisibleProjects();
+
     if (sortMode === 'az')
       filtered.sort((a, b) => a.title.localeCompare(b.title));
     else if (sortMode === 'za')
@@ -530,10 +449,6 @@ this.startDynamicSearchPlaceholder();
       filtered = deadlineManager.sortByDeadline(filtered);
     else if (sortMode === 'importance')
       filtered = deadlineManager.sortByImportance(filtered);
-    this.state.visibilityEngine.setSortMode(sortMode);
-
-    // Get filtered and sorted projects from visibility engine
-    let filtered = this.state.visibilityEngine.getVisibleProjects();
 
     // Pagination
     const totalPages = Math.ceil(filtered.length / this.config.ITEMS_PER_PAGE);

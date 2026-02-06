@@ -259,4 +259,23 @@ export class ProjectVisibilityEngine {
 
     window.history.replaceState({ path: newURL }, '', newURL);
   }
+
+  getStateFromURL() {
+    const params = new URLSearchParams(window.location.search);
+
+    const result = {
+      search: params.get('search') || '',
+      categories: [],
+      page: parseInt(params.get('page'), 10) || 1,
+      sort: params.get('sort') || 'default',
+      view: params.get('view') || 'card',
+    };
+
+    const cats = params.get('cats');
+    if (cats) {
+      result.categories = cats.split(',').map((c) => c.trim().toLowerCase());
+    }
+
+    return result;
+  }
 }
