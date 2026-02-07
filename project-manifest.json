@@ -2131,13 +2131,11 @@
       "folder": "SpaceWars",
       "path": "./projects/SpaceWars/project.json",
       "link": "./projects/SpaceWars/index.html"
-    }
+    },
     {
       "folder": "SpeedType",
       "path": "./projects/SpeedType/project.json",
       "link": "./projects/SpeedType/index.html"
-    }
-  
     },
       {
       "folder": "internet-speed-status-checker",
@@ -2180,14 +2178,11 @@
       "folder": "FocusYou",
       "path": "./projects/FocusYou/project.json",
       "link": "./projects/FocusYou/index.html"
-    }
+    },
     {
       "folder": "GrowthTube",
       "path": "./projects/GrowthTube/project.json",
       "link": "./projects/GrowthTube/index.html"
-    }
-  
-  
     },
     {
       "folder": "puzzleroom",
