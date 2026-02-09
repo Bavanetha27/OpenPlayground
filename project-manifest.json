@@ -2012,9 +2012,14 @@
       "folder": "weather-data-visualizer",
       "path": "./projects/weather-data-visualizer/project.json",
       "link": "./projects/weather-data-visualizer/index.html"
+    },
+    {
+      "folder": "pac-man-clone",
+      "path": "./projects/pac-man-clone/project.json",
+      "link": "./projects/pac-man-clone/index.html"
     }
   ],
   "version": "2.1",
   "generated": "2026-01-24T16:38:07.796Z",
-  "count": 368
+  "count": 369
 }
