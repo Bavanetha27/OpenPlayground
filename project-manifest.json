@@ -449,6 +449,11 @@
       "link": "./projects/quick-notes/index.html"
     },
     {
+      "folder": "SecurePass",
+      "path": "./projects/SecurePass/project.json",
+      "link": "./projects/SecurePass/index.html"
+    },
+    {
       "folder": "css-shapes-and-corners",
       "path": "./projects/css-shapes-and-corners/project.json",
       "link": "./projects/css-shapes-and-corners/index.html"
